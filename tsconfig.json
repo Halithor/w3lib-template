@@ -1,11 +1,10 @@
 {
+  "extends": "./node_modules/gts/tsconfig-google.json",
   "compilerOptions": {
     "baseUrl": "./src",
     "allowJs": true,
     "target": "es6",
-    "lib": [
-      "es6"
-    ],
+    "lib": ["es6"],
     "moduleResolution": "classic",
     "paths": {
       "*": [
@@ -40,10 +39,8 @@
       "mdx-m3-viewer/src/types"
     ]
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [],
+  "include": ["src"],
+  "exclude": ["node_modules"],
   "tstl": {
     "luaTarget": "5.3",
     "noHeader": true,

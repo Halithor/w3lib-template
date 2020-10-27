@@ -1,23 +1,33 @@
-import * as fs from "fs-extra";
-import * as path from "path";
-import War3Map from "mdx-m3-viewer/src/parsers/w3x/map";
-import { compileMap, getFilesInDirectory, loadJsonFile, logger, toArrayBuffer, IProjectConfig } from "./utils";
+import * as fs from 'fs-extra';
+import * as path from 'path';
+import War3Map from 'mdx-m3-viewer/src/parsers/w3x/map';
+import {
+  compileMap,
+  getFilesInDirectory,
+  loadJsonFile,
+  logger,
+  toArrayBuffer,
+  IProjectConfig,
+} from './utils';
 
 function main() {
-  const config: IProjectConfig = loadJsonFile("config.json");
+  const config: IProjectConfig = loadJsonFile('config.json');
   const result = compileMap(config);
 
   if (!result) {
-    logger.error(`Failed to compile map.`);
+    logger.error('Failed to compile map.');
     return;
   }
 
-  logger.info(`Creating w3x archive...`);
+  logger.info('Creating w3x archive...');
   if (!fs.existsSync(config.outputFolder)) {
     fs.mkdirSync(config.outputFolder);
   }
 
-  createMapFromDir(`${config.outputFolder}/${config.mapFolder}`, `./dist/${config.mapFolder}`);
+  createMapFromDir(
+    `${config.outputFolder}/${config.mapFolder}`,
+    `./dist/${config.mapFolder}`
+  );
 }
 
 /**
@@ -37,7 +47,7 @@ export function createMapFromDir(output: string, dir: string) {
     const imported = map.import(archivePath, contents);
 
     if (!imported) {
-      logger.warn("Failed to import " + archivePath);
+      logger.warn('Failed to import ' + archivePath);
       continue;
     }
   }
@@ -45,13 +55,13 @@ export function createMapFromDir(output: string, dir: string) {
   const result = map.save();
 
   if (!result) {
-    logger.error("Failed to save archive.");
+    logger.error('Failed to save archive.');
     return;
   }
 
   fs.writeFileSync(output, new Uint8Array(result));
 
-  logger.info("Finished!");
+  logger.info('Finished!');
 }
 
 main();
